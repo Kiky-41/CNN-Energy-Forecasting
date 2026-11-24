@@ -126,6 +126,8 @@ Input data is **not included**. Place files in `data/` (notebooks) or next to th
 | 2019 | 245,518.20 | 250,503.02 | 2.03 |
 | 2020 | 243,582.73 | 262,051.06 | 7.58 |
 
+Yearly error moves between 0.42% (2016) and 7.58% (2020) with a mean of 3.94%. The model overshoots from 2017 to 2019 and undershoots 2020, the year capacity stops following the pre-2020 trend, which is the single largest miss in the record.
+
 ### Projection, selected years
 
 | Year | Predicted capacity (MW) |
@@ -138,11 +140,15 @@ Input data is **not included**. Place files in `data/` (notebooks) or next to th
 | 2045 | 664,986.12 |
 | 2050 | 686,532.88 |
 
+The fitted trend gives 271,636 MW in 2021, 432,311 MW in 2030 and 686,533 MW in 2050, about 2.82 times the 2020 installed capacity. Growth is steepest before 2035 and flattens afterwards.
+
 ### Result workbooks
 
 | File | Content |
 |---|---|
 | [`results/GRU.xlsx`](results/GRU.xlsx) | raw output |
+
+The workbooks hold the raw solver output behind the tables above: per-unit schedules, per-hour costs, constraint checks and run statistics.
 
 
 ## Requirements
