@@ -103,9 +103,17 @@ Input data is **not included**. Place files in `data/` (notebooks) or next to th
 
 ## Results
 
-### Result files
-
-- [`results/GRU.xlsx`](results/GRU.xlsx)
+| Metric | Value |
+|---|---|
+| Forecast horizon | 2021-2050, 30 recursive steps |
+| CNN MAPE | 4.30% |
+| CNN $R^2$ | 0.87 |
+| GRU MAPE | 6.24% |
+| GRU $R^2$ | 0.77 |
+| ARIMA MAPE | 8.60% |
+| ARIMA $R^2$ | 0.52 |
+| Training split | training before 2011, validation 2011-2020 |
+| Result file | [`results/GRU.xlsx`](results/GRU.xlsx) |
 
 
 ## Requirements
