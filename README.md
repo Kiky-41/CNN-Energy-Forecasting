@@ -103,13 +103,26 @@ Input data is **not included**. Place files in `data/` (notebooks) or next to th
 
 ## Results
 
-### Paper metrics on the 2011-2020 validation split
+### Paper metrics on 2011-2020 validation split
 
-| Model | MAPE | R2 |
-|---|---|---|
-| CNN (Conv1D) | 4.30% | 0.87 |
-| GRU | 6.24% | 0.77 |
-| ARIMA | 8.60% | 0.52 |
+| Model | MAPE | MAE (MW) | RMSE (MW) | R2 |
+|---|---|---|---|---|
+| CNN (Conv1D) | 4.30% | 8,317.34 | 10,118.88 | 0.87 |
+| GRU | 6.24% | 12,260.50 | 13,532.66 | 0.77 |
+| ARIMA | 8.60% | 18,351.00 | 19,375.15 | 0.52 |
+
+The CNN leads on all four measures: MAPE 4.30%, MAE 8,317.34 MW, RMSE 10,118.88 MW and R2 0.87, against 6.24% / 12,260.50 / 13,532.66 / 0.77 for the GRU and 8.60% / 18,351.00 / 19,375.15 / 0.52 for ARIMA. The convolutional layer reads short capacity sequences directly, so the forecast does not depend on a recurrent state carried across the whole series.
+
+### Paired t-tests and one-way ANOVA on absolute errors
+
+| Test | Statistic | p | Significant |
+|---|---|---|---|
+| Paired t-test, CNN vs GRU | -2.81 | 0.020 | yes |
+| Paired t-test, CNN vs ARIMA | -3.05 | 0.014 | yes |
+| Paired t-test, GRU vs ARIMA | -1.99 | 0.077 | no |
+| One-way ANOVA, three models | F 6.59 | 0.005 | yes |
+
+CNN errors are lower than GRU (t -2.81, p 0.020) and lower than ARIMA (t -3.05, p 0.014), while GRU and ARIMA cannot be separated (t -1.99, p 0.077). The one-way ANOVA over the three models gives F 6.59 with p 0.005, so at least one model differs and the paired tests locate it at the CNN.
 
 ### Validation, 2011-2020
 
