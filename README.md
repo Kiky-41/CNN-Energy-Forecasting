@@ -38,3 +38,11 @@ Python (TensorFlow). Python notebooks: `numpy`, `pandas`, `scipy`, `matplotlib` 
 ```bibtex
 @inproceedings{Yustika_2025, title={Future Trends of Energy Consumption in Indonesia Through CNN-based Modeling}, url={http://dx.doi.org/10.1109/iaict65714.2025.11101693}, DOI={10.1109/iaict65714.2025.11101693}, booktitle={2025 IEEE International Conference on Industry 4.0, Artificial Intelligence, and Communications Technology (IAICT)}, publisher={IEEE}, author={Yustika, Lindiasari Martha and Ikhsan, Rifki Rahman Nur and Raharjo, Jangkung and Callista, Areta Adelia and Yl, Muhammad Albaihaq Abdiary.}, year={2025}, month=July, pages={311–317} }
 ```
+
+## License
+
+[![CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](LICENSE)
+
+Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). **Attribution is required**: any use of this code, results, or figures, including in publications, must cite:
+
+> Lindiasari Martha Yustika; Rifki Rahman Nur Ikhsan; Jangkung Raharjo; Areta Adelia Callista; Muhammad Albaihaq Abdiary YL (2025). Future Trends of Energy Consumption in Indonesia Through CNN-based Modeling. *2025 IEEE International Conference on Industry 4.0, Artificial Intelligence, and Communications Technology (IAICT)*. https://doi.org/10.1109/iaict65714.2025.11101693

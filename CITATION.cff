@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this code or results, you must cite the paper below (CC BY 4.0 attribution requirement)."
+title: "CNN-Energy-Forecasting: Future Trends of Energy Consumption in Indonesia Through CNN-based Modeling"
+type: software
+license: CC-BY-4.0
+repository-code: "https://github.com/Kiky-41/CNN-Energy-Forecasting"
+authors:
+  - family-names: "Yustika"
+    given-names: "Lindiasari Martha"
+  - family-names: "Ikhsan"
+    given-names: "Rifki Rahman Nur"
+  - family-names: "Raharjo"
+    given-names: "Jangkung"
+  - family-names: "Callista"
+    given-names: "Areta Adelia"
+  - family-names: "YL"
+    given-names: "Muhammad Albaihaq Abdiary"
+preferred-citation:
+  type: conference-paper
+  title: "Future Trends of Energy Consumption in Indonesia Through CNN-based Modeling"
+  authors:
+    - family-names: "Yustika"
+      given-names: "Lindiasari Martha"
+    - family-names: "Ikhsan"
+      given-names: "Rifki Rahman Nur"
+    - family-names: "Raharjo"
+      given-names: "Jangkung"
+    - family-names: "Callista"
+      given-names: "Areta Adelia"
+    - family-names: "YL"
+      given-names: "Muhammad Albaihaq Abdiary"
+  journal: "2025 IEEE International Conference on Industry 4.0, Artificial Intelligence, and Communications Technology (IAICT)"
+  year: 2025
+  doi: 10.1109/iaict65714.2025.11101693
