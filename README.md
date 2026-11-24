@@ -144,9 +144,7 @@ The fitted trend gives 271,636 MW in 2021, 432,311 MW in 2030 and 686,533 MW in 
 
 ### Result workbooks
 
-| File | Content |
-|---|---|
-| [`results/GRU.xlsx`](results/GRU.xlsx) | raw output |
+Raw solver output: [`results/GRU.xlsx`](results/GRU.xlsx).
 
 The workbooks hold the raw solver output behind the tables above: per-unit schedules, per-hour costs, constraint checks and run statistics.
 
