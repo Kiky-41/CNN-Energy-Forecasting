@@ -13,6 +13,7 @@ Long-term electricity consumption forecasting for Indonesia with CNN (Conv1D), c
 Accurate electricity load forecasting is essential for balancing supply and demand, optimizing energy distribution, and improving cost efficiency. This study presents a (CNN)based model for long-term electricity load forecasting in Indonesia, leveraging 1D Convolutional Layers (Conv1D) to extract patterns from historical consumption data (1989-2020) across multiple sectors. Using a sliding window approach, the model captures temporal dependencies and performs multi-step forecasting up to 30 years ahead. Evaluation against GRU and ARIMA shows CNN’s superior accuracy, achieving a MAPE of $4.30 \text{ percent}$ and $\mathbf{R}^{\mathbf{2}}$ of $\mathbf{0. 8 7}$, outperforming GRU (MAPE 6.24%) and ARIMA (MAPE 8.60%). CNN’s ability to capture seasonal patterns and long-term trends without recurrent architectures makes it a promising tool for national energy planning. Its flexibility and scalability allow adaptation to various future scenarios, supporting sustainable electricity supply and informed policymaking.
 
 
+
 ## Proposed method
 
 The paper proposes a one-dimensional convolutional network (CNN) for long-term electricity-capacity forecasting. A five-year window of historical consumption is mapped to the next year, and the trained model is then used recursively: each prediction is appended to the window to forecast the following year, producing the 2021–2050 projection. The paper compares the CNN with a GRU and with ARIMA on the same 1989–2020 series and reports a MAPE of 4.30% for the CNN against 6.24% for the GRU and 8.60% for ARIMA.
@@ -46,11 +47,11 @@ $$\theta^{\ast}=\arg\min_\theta~\frac{1}{n}\sum_{t}\left|\frac{y_{t+1}-\hat y_{t
 
 The convolution layer uses 32 filters of width 2. Each filter slides over the input window and applies a rectified linear unit:
 
-$$h_j^{(k)}=\operatorname{ReLU}\left(\sum_{m=0}^{1}w_m^{(k)}x_{j+m}+b^{(k)}\right),\qquad \operatorname{ReLU}(z)=\max(0,z).$$
+$$h_j^{(k)}=\mathrm{ReLU}\left(\sum_{m=0}^{1}w_m^{(k)}x_{j+m}+b^{(k)}\right),\qquad \mathrm{ReLU}(z)=\max(0,z).$$
 
 The filter learns a short local pattern, for example a two-year rise or fall, and the 32 filters together cover different trend shapes. The output is flattened and passed to a fully connected layer with 50 units, followed by a single linear output:
 
-$$\mathbf{z}=\operatorname{ReLU}\left(\mathbf{W}_1\operatorname{vec}(\mathbf{h})+\mathbf{b}_1\right),\qquad \hat y=\mathbf{w}_2^{\top}\mathbf{z}+b_2.$$
+$$\mathbf{z}=\mathrm{ReLU}\left(\mathbf{W}_1\mathrm{vec}(\mathbf{h})+\mathbf{b}_1\right),\qquad \hat y=\mathbf{w}_2^{\top}\mathbf{z}+b_2.$$
 
 The linear output is required because the target is a continuous capacity value, not a class. Training uses Adam with the MAPE objective, 100 epochs, batch size 8, and a chronological split (training before 2011, validation 2011–2020). Inputs are min–max scaled to $[0,1]$ and predictions are rescaled before scoring.
 
@@ -79,6 +80,8 @@ MAPE expresses the average error as a percentage of the actual value, RMSE penal
 ### Implementation note
 
 The notebook stored in this repository, `GRU_and_comparison.ipynb`, implements the GRU baseline (50 hidden units, Dense(1), Adam, MAPE loss, 100 epochs, batch 8). The CNN architecture described above is the model reported in the paper; the CNN training script itself is not included. The reported CNN metrics are therefore paper results, not outputs of this notebook.
+### Reported result
+Validation over 2011-2020: CNN MAPE 4.30% with $R^2=0.87$, GRU MAPE 6.24% with $R^2=0.77$, ARIMA MAPE 8.60% with $R^2=0.52$. The CNN projection for 2021-2050 is the 30-step recursive forecast.
 
 ## Contents
 
@@ -96,6 +99,14 @@ Input data is **not included**. Place files in `data/` (notebooks) or next to th
 | File | Columns |
 |---|---|
 | `Data.xlsx` | Sheet1: `Year`, `Household`, `Industry`, `CP`, `TotalKap` |
+
+
+## Results
+
+### Result files
+
+- [`results/GRU.xlsx`](results/GRU.xlsx)
+
 
 ## Requirements
 
