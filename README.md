@@ -103,17 +103,46 @@ Input data is **not included**. Place files in `data/` (notebooks) or next to th
 
 ## Results
 
-| Metric | Value |
+### Paper metrics on the 2011-2020 validation split
+
+| Model | MAPE | R2 |
+|---|---|---|
+| CNN (Conv1D) | 4.30% | 0.87 |
+| GRU | 6.24% | 0.77 |
+| ARIMA | 8.60% | 0.52 |
+
+### Validation, 2011-2020
+
+| Year | Actual (MW) | Predicted (MW) | Error (%) |
+|---|---|---|---|
+| 2011 | 157,992.66 | 151,223.48 | 4.28 |
+| 2012 | 173,990.75 | 161,794.08 | 7.01 |
+| 2013 | 187,541.02 | 174,424.97 | 6.99 |
+| 2014 | 198,601.78 | 188,872.86 | 4.90 |
+| 2015 | 202,845.82 | 204,024.33 | 0.58 |
+| 2016 | 216,004.32 | 216,915.81 | 0.42 |
+| 2017 | 221,574.66 | 229,069.31 | 3.38 |
+| 2018 | 234,617.88 | 239,754.41 | 2.19 |
+| 2019 | 245,518.20 | 250,503.02 | 2.03 |
+| 2020 | 243,582.73 | 262,051.06 | 7.58 |
+
+### Projection, selected years
+
+| Year | Predicted capacity (MW) |
 |---|---|
-| Forecast horizon | 2021-2050, 30 recursive steps |
-| CNN MAPE | 4.30% |
-| CNN $R^2$ | 0.87 |
-| GRU MAPE | 6.24% |
-| GRU $R^2$ | 0.77 |
-| ARIMA MAPE | 8.60% |
-| ARIMA $R^2$ | 0.52 |
-| Training split | training before 2011, validation 2011-2020 |
-| Result file | [`results/GRU.xlsx`](results/GRU.xlsx) |
+| 2021 | 271,635.78 |
+| 2025 | 332,818.19 |
+| 2030 | 432,311.41 |
+| 2035 | 536,407.31 |
+| 2040 | 618,076.56 |
+| 2045 | 664,986.12 |
+| 2050 | 686,532.88 |
+
+### Result workbooks
+
+| File | Content |
+|---|---|
+| [`results/GRU.xlsx`](results/GRU.xlsx) | raw output |
 
 
 ## Requirements
