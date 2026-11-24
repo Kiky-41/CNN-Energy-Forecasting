@@ -30,18 +30,13 @@ $$\theta^{\ast}=\arg\min_\theta~\frac{1}{n}\sum_{t}\left|\frac{y_{t+1}-\hat y_{t
 
 ### Notation
 
-| Symbol | Meaning | Unit |
-|---|---|---|
-| $y_t$ | observed capacity in year $t$ | MW |
-| $\hat y_t$ | predicted capacity | MW |
-| $\mathbf{x}_t$ | five-year input window | MW |
-| $f_\theta$ | network with parameters $\theta$ | – |
-| $w_m^{(k)},b^{(k)}$ | filter weights and bias of filter $k$ | – |
-| $h_j^{(k)}$ | activation of filter $k$ at position $j$ | – |
-| $\mathbf{W}_1,\mathbf{b}_1$ | dense-layer weights and bias | – |
-| $\mathbf{w}_2,b_2$ | output-layer weights and bias | – |
-| $A_i,P_i$ | actual and predicted value in the error metrics | MW |
-| $n$ | number of evaluated years | – |
+| Symbol | Meaning | Symbol | Meaning |
+|---|---|---|---|
+| $y_t$ | observed capacity in year $t$ (MW) | $h_j^{(k)}$ | activation of filter $k$ at position $j$ |
+| $\hat y_t$ | predicted capacity (MW) | $\mathbf{W}_1,\mathbf{b}_1$ | dense-layer weights and bias |
+| $\mathbf{x}_t$ | five-year input window (MW) | $\mathbf{w}_2,b_2$ | output-layer weights and bias |
+| $f_\theta$ | network with parameters $\theta$ | $A_i,P_i$ | actual and predicted value in the error metrics (MW) |
+| $w_m^{(k)},b^{(k)}$ | filter weights and bias of filter $k$ | $n$ | number of evaluated years |
 
 ### Network equations
 
