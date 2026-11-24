@@ -10,7 +10,7 @@ Long-term electricity consumption forecasting for Indonesia with CNN (Conv1D), c
 
 ## Abstract
 
-Accurate electricity load forecasting is essential for balancing supply and demand, optimizing energy distribution, and improving cost efficiency. This study presents a (CNN)based model for long-term electricity load forecasting in Indonesia, leveraging 1D Convolutional Layers (Conv1D) to extract patterns from historical consumption data (1989-2020) across multiple sectors. Using a sliding window approach, the model captures temporal dependencies and performs multi-step forecasting up to 30 years ahead. Evaluation against GRU and ARIMA shows CNN’s superior accuracy, achieving a MAPE of $4.30 \%$ and $\mathbf{R}^{\mathbf{2}}$ of $\mathbf{0. 8 7}$, outperforming GRU (MAPE 6.24%) and ARIMA (MAPE 8.60%). CNN’s ability to capture seasonal patterns and long-term trends without recurrent architectures makes it a promising tool for national energy planning. Its flexibility and scalability allow adaptation to various future scenarios, supporting sustainable electricity supply and informed policymaking.
+Accurate electricity load forecasting is essential for balancing supply and demand, optimizing energy distribution, and improving cost efficiency. This study presents a (CNN)based model for long-term electricity load forecasting in Indonesia, leveraging 1D Convolutional Layers (Conv1D) to extract patterns from historical consumption data (1989-2020) across multiple sectors. Using a sliding window approach, the model captures temporal dependencies and performs multi-step forecasting up to 30 years ahead. Evaluation against GRU and ARIMA shows CNN’s superior accuracy, achieving a MAPE of $4.30 \text{ percent}$ and $\mathbf{R}^{\mathbf{2}}$ of $\mathbf{0. 8 7}$, outperforming GRU (MAPE 6.24%) and ARIMA (MAPE 8.60%). CNN’s ability to capture seasonal patterns and long-term trends without recurrent architectures makes it a promising tool for national energy planning. Its flexibility and scalability allow adaptation to various future scenarios, supporting sustainable electricity supply and informed policymaking.
 
 
 ## Proposed method
@@ -25,7 +25,7 @@ $$\mathbf{x}_t=\left[y_{t-4},y_{t-3},y_{t-2},y_{t-1},y_t\right],\qquad \hat y_{t
 
 and the network parameters minimise the mean absolute percentage error
 
-$$\theta^{*}=\arg\min_\theta\ \frac{1}{n}\sum_{t}\left|\frac{y_{t+1}-\hat y_{t+1}}{y_{t+1}}\right|\times100\%.$$
+$$\theta^{*}=\arg\min_\theta~\frac{1}{n}\sum_{t}\left|\frac{y_{t+1}-\hat y_{t+1}}{y_{t+1}}\right|\times100\text{ percent}.$$
 
 ### Notation
 
@@ -46,11 +46,11 @@ $$\theta^{*}=\arg\min_\theta\ \frac{1}{n}\sum_{t}\left|\frac{y_{t+1}-\hat y_{t+1
 
 The convolution layer uses 32 filters of width 2. Each filter slides over the input window and applies a rectified linear unit:
 
-$$h_j^{(k)}=\operatorname{ReLU}\!\left(\sum_{m=0}^{1}w_m^{(k)}x_{j+m}+b^{(k)}\right),\qquad \operatorname{ReLU}(z)=\max(0,z).$$
+$$h_j^{(k)}=\operatorname{ReLU}\left(\sum_{m=0}^{1}w_m^{(k)}x_{j+m}+b^{(k)}\right),\qquad \operatorname{ReLU}(z)=\max(0,z).$$
 
 The filter learns a short local pattern, for example a two-year rise or fall, and the 32 filters together cover different trend shapes. The output is flattened and passed to a fully connected layer with 50 units, followed by a single linear output:
 
-$$\mathbf{z}=\operatorname{ReLU}\!\left(\mathbf{W}_1\operatorname{vec}(\mathbf{h})+\mathbf{b}_1\right),\qquad \hat y=\mathbf{w}_2^{\top}\mathbf{z}+b_2.$$
+$$\mathbf{z}=\operatorname{ReLU}\left(\mathbf{W}_1\operatorname{vec}(\mathbf{h})+\mathbf{b}_1\right),\qquad \hat y=\mathbf{w}_2^{\top}\mathbf{z}+b_2.$$
 
 The linear output is required because the target is a continuous capacity value, not a class. Training uses Adam with the MAPE objective, 100 epochs, batch size 8, and a chronological split (training before 2011, validation 2011–2020). Inputs are min–max scaled to $[0,1]$ and predictions are rescaled before scoring.
 
@@ -60,7 +60,7 @@ The GRU baseline controls information with an update gate $z_t$ and a reset gate
 
 $$z_t=\sigma(\mathbf{W}_z\mathbf{x}_t+\mathbf{U}_z\mathbf{h}_{t-1}),\qquad r_t=\sigma(\mathbf{W}_r\mathbf{x}_t+\mathbf{U}_r\mathbf{h}_{t-1}),$$
 
-$$\tilde{\mathbf{h}}_t=\tanh\!\left(\mathbf{W}_h\mathbf{x}_t+\mathbf{U}_h(r_t\odot\mathbf{h}_{t-1})\right),\qquad \mathbf{h}_t=(1-z_t)\odot\mathbf{h}_{t-1}+z_t\odot\tilde{\mathbf{h}}_t.$$
+$$\tilde{\mathbf{h}}_t=\tanh\left(\mathbf{W}_h\mathbf{x}_t+\mathbf{U}_h(r_t\odot\mathbf{h}_{t-1})\right),\qquad \mathbf{h}_t=(1-z_t)\odot\mathbf{h}_{t-1}+z_t\odot\tilde{\mathbf{h}}_t.$$
 
 The update gate decides how much old memory survives, and the reset gate decides how much of the past is used when forming the candidate state. ARIMA$(p,d,q)$ is the statistical baseline:
 
@@ -70,7 +70,7 @@ where $\phi(L)$ and $\theta(L)$ are autoregressive and moving-average polynomial
 
 ### Accuracy measures
 
-$$\mathrm{MAPE}=\frac{1}{n}\sum_{i=1}^{n}\left|\frac{A_i-P_i}{A_i}\right|\times100\%,\qquad \mathrm{RMSE}=\sqrt{\frac{1}{n}\sum_{i=1}^{n}(A_i-P_i)^2},$$
+$$\mathrm{MAPE}=\frac{1}{n}\sum_{i=1}^{n}\left|\frac{A_i-P_i}{A_i}\right|\times100\text{ percent},\qquad \mathrm{RMSE}=\sqrt{\frac{1}{n}\sum_{i=1}^{n}(A_i-P_i)^2},$$
 
 $$R^2=1-\frac{\sum_i(A_i-P_i)^2}{\sum_i(A_i-\bar A)^2}.$$
 
