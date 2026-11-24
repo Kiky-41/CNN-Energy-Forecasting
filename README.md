@@ -110,12 +110,11 @@ The CNN leads on all four measures: MAPE 4.30%, MAE 8,317.34 MW, RMSE 10,118.88 
 
 ### Paired t-tests and one-way ANOVA on absolute errors
 
-| Test | Statistic | p | Significant |
-|---|---|---|---|
-| Paired t-test, CNN vs GRU | -2.81 | 0.020 | yes |
-| Paired t-test, CNN vs ARIMA | -3.05 | 0.014 | yes |
-| Paired t-test, GRU vs ARIMA | -1.99 | 0.077 | no |
-| One-way ANOVA, three models | F 6.59 | 0.005 | yes |
+| Test | Paired t-test, CNN vs GRU | Paired t-test, CNN vs ARIMA | Paired t-test, GRU vs ARIMA | One-way ANOVA, three models |
+|---|---|---|---|---|
+| Statistic | -2.81 | -3.05 | -1.99 | F 6.59 |
+| p | 0.020 | 0.014 | 0.077 | 0.005 |
+| Significant | yes | yes | no | yes |
 
 CNN errors are lower than GRU (t -2.81, p 0.020) and lower than ARIMA (t -3.05, p 0.014), while GRU and ARIMA cannot be separated (t -1.99, p 0.077). The one-way ANOVA over the three models gives F 6.59 with p 0.005, so at least one model differs and the paired tests locate it at the CNN.
 
