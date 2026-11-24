@@ -25,7 +25,7 @@ $$\mathbf{x}_t=\left[y_{t-4},y_{t-3},y_{t-2},y_{t-1},y_t\right],\qquad \hat y_{t
 
 and the network parameters minimise the mean absolute percentage error
 
-$$\theta^{*}=\arg\min_\theta~\frac{1}{n}\sum_{t}\left|\frac{y_{t+1}-\hat y_{t+1}}{y_{t+1}}\right|\times100\text{ percent}.$$
+$$\theta^{\ast}=\arg\min_\theta~\frac{1}{n}\sum_{t}\left|\frac{y_{t+1}-\hat y_{t+1}}{y_{t+1}}\right|\times100\text{ percent}.$$
 
 ### Notation
 
