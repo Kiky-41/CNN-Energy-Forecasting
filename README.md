@@ -15,49 +15,70 @@ Accurate electricity load forecasting is essential for balancing supply and dema
 
 ## Proposed method
 
-The forecaster is a one-dimensional CNN that maps a five-year window of historical electricity consumption to the next year's capacity. Predictions are produced recursively: each output is appended to the input window to forecast the following year, which yields the 2021–2050 projection.
+The paper proposes a one-dimensional convolutional network (CNN) for long-term electricity-capacity forecasting. A five-year window of historical consumption is mapped to the next year, and the trained model is then used recursively: each prediction is appended to the window to forecast the following year, producing the 2021–2050 projection. The paper compares the CNN with a GRU and with ARIMA on the same 1989–2020 series and reports a MAPE of 4.30% for the CNN against 6.24% for the GRU and 8.60% for ARIMA.
 
 ### Problem formulation
 
-Let $y_t$ be the annual series. The sliding-window pair is
+Let $y_t$ be the annual capacity series. The supervised pair built by the sliding window is
 
-$$\mathbf{x}_t=\left[y_{t-4},y_{t-3},y_{t-2},y_{t-1},y_t\right],\qquad \hat y_{t+1}=f_\theta(\mathbf{x}_t)$$
+$$\mathbf{x}_t=\left[y_{t-4},y_{t-3},y_{t-2},y_{t-1},y_t\right],\qquad \hat y_{t+1}=f_\theta(\mathbf{x}_t),$$
 
-and the fitted parameters minimise the mean absolute percentage error
+and the network parameters minimise the mean absolute percentage error
 
-$$\theta^*=\arg\min_\theta\ \frac{1}{n}\sum_{t}\left|\frac{y_{t+1}-\hat y_{t+1}}{y_{t+1}}\right|\times100\%$$
+$$\theta^{*}=\arg\min_\theta\ \frac{1}{n}\sum_{t}\left|\frac{y_{t+1}-\hat y_{t+1}}{y_{t+1}}\right|\times100\%.$$
+
+### Notation
+
+| Symbol | Meaning | Unit |
+|---|---|---|
+| $y_t$ | observed capacity in year $t$ | MW |
+| $\hat y_t$ | predicted capacity | MW |
+| $\mathbf{x}_t$ | five-year input window | MW |
+| $f_\theta$ | network with parameters $\theta$ | – |
+| $w_m^{(k)},b^{(k)}$ | filter weights and bias of filter $k$ | – |
+| $h_j^{(k)}$ | activation of filter $k$ at position $j$ | – |
+| $\mathbf{W}_1,\mathbf{b}_1$ | dense-layer weights and bias | – |
+| $\mathbf{w}_2,b_2$ | output-layer weights and bias | – |
+| $A_i,P_i$ | actual and predicted value in the error metrics | MW |
+| $n$ | number of evaluated years | – |
 
 ### Network equations
 
-Convolution layer, 32 filters, kernel size 2:
+The convolution layer uses 32 filters of width 2. Each filter slides over the input window and applies a rectified linear unit:
 
-$$h_j^{(k)}=\operatorname{ReLU}\!\left(\sum_{m=0}^{1}w_m^{(k)}x_{j+m}+b^{(k)}\right),\qquad \operatorname{ReLU}(z)=\max(0,z)$$
+$$h_j^{(k)}=\operatorname{ReLU}\!\left(\sum_{m=0}^{1}w_m^{(k)}x_{j+m}+b^{(k)}\right),\qquad \operatorname{ReLU}(z)=\max(0,z).$$
 
-Flatten, then a fully connected layer with 50 units and a linear output:
+The filter learns a short local pattern, for example a two-year rise or fall, and the 32 filters together cover different trend shapes. The output is flattened and passed to a fully connected layer with 50 units, followed by a single linear output:
 
-$$\mathbf{z}=\operatorname{ReLU}\!\left(\mathbf{W}_1\operatorname{vec}(\mathbf{h})+\mathbf{b}_1\right),\qquad \hat y=\mathbf{w}_2^{\top}\mathbf{z}+b_2$$
+$$\mathbf{z}=\operatorname{ReLU}\!\left(\mathbf{W}_1\operatorname{vec}(\mathbf{h})+\mathbf{b}_1\right),\qquad \hat y=\mathbf{w}_2^{\top}\mathbf{z}+b_2.$$
 
-Training uses Adam with the MAPE objective, 100 epochs, batch size 8, and a chronological split (training before 2011, validation 2011–2020).
+The linear output is required because the target is a continuous capacity value, not a class. Training uses Adam with the MAPE objective, 100 epochs, batch size 8, and a chronological split (training before 2011, validation 2011–2020). Inputs are min–max scaled to $[0,1]$ and predictions are rescaled before scoring.
 
-### Baselines
+### Baseline models
 
-GRU with update and reset gates:
+The GRU baseline controls information with an update gate $z_t$ and a reset gate $r_t$:
 
-$$z_t=\sigma(\mathbf{W}_z\mathbf{x}_t+\mathbf{U}_z\mathbf{h}_{t-1}),\qquad r_t=\sigma(\mathbf{W}_r\mathbf{x}_t+\mathbf{U}_r\mathbf{h}_{t-1})$$
+$$z_t=\sigma(\mathbf{W}_z\mathbf{x}_t+\mathbf{U}_z\mathbf{h}_{t-1}),\qquad r_t=\sigma(\mathbf{W}_r\mathbf{x}_t+\mathbf{U}_r\mathbf{h}_{t-1}),$$
 
-$$\tilde{\mathbf{h}}_t=\tanh\!\left(\mathbf{W}_h\mathbf{x}_t+\mathbf{U}_h(r_t\odot\mathbf{h}_{t-1})\right),\qquad \mathbf{h}_t=(1-z_t)\odot\mathbf{h}_{t-1}+z_t\odot\tilde{\mathbf{h}}_t$$
+$$\tilde{\mathbf{h}}_t=\tanh\!\left(\mathbf{W}_h\mathbf{x}_t+\mathbf{U}_h(r_t\odot\mathbf{h}_{t-1})\right),\qquad \mathbf{h}_t=(1-z_t)\odot\mathbf{h}_{t-1}+z_t\odot\tilde{\mathbf{h}}_t.$$
 
-ARIMA$(p,d,q)$:
+The update gate decides how much old memory survives, and the reset gate decides how much of the past is used when forming the candidate state. ARIMA$(p,d,q)$ is the statistical baseline:
 
-$$\phi(L)(1-L)^d y_t=\theta(L)\varepsilon_t,\qquad \varepsilon_t\sim\mathcal{N}(0,\sigma^2)$$
+$$\phi(L)(1-L)^d y_t=\theta(L)\varepsilon_t,\qquad \varepsilon_t\sim\mathcal{N}(0,\sigma^2),$$
+
+where $\phi(L)$ and $\theta(L)$ are autoregressive and moving-average polynomials and $d$ is the differencing order.
 
 ### Accuracy measures
 
-$$\mathrm{MAPE}=\frac{1}{n}\sum_{i=1}^{n}\left|\frac{A_i-P_i}{A_i}\right|\times100\%,\qquad \mathrm{RMSE}=\sqrt{\frac{1}{n}\sum_{i=1}^{n}(A_i-P_i)^2}$$
+$$\mathrm{MAPE}=\frac{1}{n}\sum_{i=1}^{n}\left|\frac{A_i-P_i}{A_i}\right|\times100\%,\qquad \mathrm{RMSE}=\sqrt{\frac{1}{n}\sum_{i=1}^{n}(A_i-P_i)^2},$$
 
-$$R^2=1-\frac{\sum_i(A_i-P_i)^2}{\sum_i(A_i-\bar A)^2}$$
+$$R^2=1-\frac{\sum_i(A_i-P_i)^2}{\sum_i(A_i-\bar A)^2}.$$
 
-Validation results: CNN MAPE 4.30%, $R^2$ 0.87; GRU 6.24%, 0.77; ARIMA 8.60%, 0.52.
+MAPE expresses the average error as a percentage of the actual value, RMSE penalises large deviations, and $R^2$ measures the share of variance explained.
+
+### Implementation note
+
+The notebook stored in this repository, `GRU_and_comparison.ipynb`, implements the GRU baseline (50 hidden units, Dense(1), Adam, MAPE loss, 100 epochs, batch 8). The CNN architecture described above is the model reported in the paper; the CNN training script itself is not included. The reported CNN metrics are therefore paper results, not outputs of this notebook.
 
 ## Contents
 
