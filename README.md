@@ -110,29 +110,43 @@ The CNN leads on all four measures: MAPE 4.30%, MAE 8,317.34 MW, RMSE 10,118.88 
 
 ### Paired t-tests and one-way ANOVA on absolute errors
 
-| Test | Paired t-test, CNN vs GRU | Paired t-test, CNN vs ARIMA | Paired t-test, GRU vs ARIMA | One-way ANOVA, three models |
-|---|---|---|---|---|
-| Statistic | -2.81 | -3.05 | -1.99 | F 6.59 |
-| p | 0.020 | 0.014 | 0.077 | 0.005 |
-| Significant | yes | yes | no | yes |
+| Test | Statistic | p | Significant |
+|---|---|---|---|
+| Paired t-test, CNN vs GRU | -2.81 | 0.020 | yes |
+| Paired t-test, CNN vs ARIMA | -3.05 | 0.014 | yes |
+| Paired t-test, GRU vs ARIMA | -1.99 | 0.077 | no |
+| One-way ANOVA, three models | F 6.59 | 0.005 | yes |
 
 CNN errors are lower than GRU (t -2.81, p 0.020) and lower than ARIMA (t -3.05, p 0.014), while GRU and ARIMA cannot be separated (t -1.99, p 0.077). The one-way ANOVA over the three models gives F 6.59 with p 0.005, so at least one model differs and the paired tests locate it at the CNN.
 
 ### Validation, 2011-2020
 
-| Year | 2011 | 2012 | 2013 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 |
-|---|---|---|---|---|---|---|---|---|---|---|
-| Actual (MW) | 157,992.66 | 173,990.75 | 187,541.02 | 198,601.78 | 202,845.82 | 216,004.32 | 221,574.66 | 234,617.88 | 245,518.20 | 243,582.73 |
-| Predicted (MW) | 151,223.48 | 161,794.08 | 174,424.97 | 188,872.86 | 204,024.33 | 216,915.81 | 229,069.31 | 239,754.41 | 250,503.02 | 262,051.06 |
-| Error (%) | 4.28 | 7.01 | 6.99 | 4.90 | 0.58 | 0.42 | 3.38 | 2.19 | 2.03 | 7.58 |
+| Year | Actual (MW) | Predicted (MW) | Error (%) |
+|---|---|---|---|
+| 2011 | 157,992.66 | 151,223.48 | 4.28 |
+| 2012 | 173,990.75 | 161,794.08 | 7.01 |
+| 2013 | 187,541.02 | 174,424.97 | 6.99 |
+| 2014 | 198,601.78 | 188,872.86 | 4.90 |
+| 2015 | 202,845.82 | 204,024.33 | 0.58 |
+| 2016 | 216,004.32 | 216,915.81 | 0.42 |
+| 2017 | 221,574.66 | 229,069.31 | 3.38 |
+| 2018 | 234,617.88 | 239,754.41 | 2.19 |
+| 2019 | 245,518.20 | 250,503.02 | 2.03 |
+| 2020 | 243,582.73 | 262,051.06 | 7.58 |
 
 Yearly error moves between 0.42% (2016) and 7.58% (2020) with a mean of 3.94%. The model overshoots from 2017 to 2019 and undershoots 2020, the year capacity stops following the pre-2020 trend, which is the single largest miss in the record.
 
 ### Projection, selected years
 
-| Year | 2021 | 2025 | 2030 | 2035 | 2040 | 2045 | 2050 |
-|---|---|---|---|---|---|---|---|
-| Predicted capacity (MW) | 271,635.78 | 332,818.19 | 432,311.41 | 536,407.31 | 618,076.56 | 664,986.12 | 686,532.88 |
+| Year | Predicted capacity (MW) |
+|---|---|
+| 2021 | 271,635.78 |
+| 2025 | 332,818.19 |
+| 2030 | 432,311.41 |
+| 2035 | 536,407.31 |
+| 2040 | 618,076.56 |
+| 2045 | 664,986.12 |
+| 2050 | 686,532.88 |
 
 The fitted trend gives 271,636 MW in 2021, 432,311 MW in 2030 and 686,533 MW in 2050, about 2.82 times the 2020 installed capacity. Growth is steepest before 2035 and flattens afterwards.
 
